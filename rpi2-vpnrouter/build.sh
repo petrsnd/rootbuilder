@@ -5,6 +5,6 @@ BUILDROOT_URL="http://buildroot.uclibc.org/downloads/buildroot-${BUILDROOT_VERSI
 
 SCRIPT_DIR="$(cd $(dirname $0) && pwd)"
 BUILDROOT_DIR="$SCRIPT_DIR/buildroot-$BUILDROOT_VERSION"
-CONFIG_FILE=rpi2-test.config
+CONFIG_FILE=rpi2-vpnrouter.config
 
 . $SCRIPT_DIR/../buildroot-common/build.sh
