@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for homedir in `find /home/* -maxdepth 0`; do
+   owner=`echo $homedir | sed -e 's,/home/\(.*\)$,\1,'`
+   echo "Recursively setting ownership of $homedir to $owner:$owner"
+   chown -R $owner:$owner $homedir
+done
