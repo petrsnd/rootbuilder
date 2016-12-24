@@ -8,7 +8,7 @@ if [ ! -f "/etc/ppp/peers/rpivpn" ]; then
 fi
 
 echo -e "Enabling VPN gateway\n"
-sudo pon slcvpn debug dump logfd 2
+sudo pon rpivpn debug dump logfd 2
 
 echo -e "\nVerifying configuration\n"
 echo "Looking for ppp interface:"

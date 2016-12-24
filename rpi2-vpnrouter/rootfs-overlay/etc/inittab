@@ -24,6 +24,9 @@
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 
+# ensure existence of ppp device
+console::sysinit:/sbin/create-ppp-device
+
 # correct home directory permissions
 console::sysinit:/sbin/homedir-ownership
 
