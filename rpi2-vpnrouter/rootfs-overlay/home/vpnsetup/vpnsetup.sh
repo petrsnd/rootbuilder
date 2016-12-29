@@ -50,7 +50,7 @@ done
 RemoteNetwork=
 echo "The remote network is needed to set up routing, please use CIDR notation (e.g. 10.0.0.0/8)"
 while [ -z "$RemoteNetwork" ]; do
-    read -p "VPN address: " VpnAddress
+    read -p "Remote network: " RemoteNetwork
     if ! [[ $RemoteNetwork =~ ^((1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])/[0-9]{1,2}$ ]]; then
         echo "Not CIDR notation, please use a valid network such as 10.0.0.0/8"
         RemoteNetwork=
@@ -71,7 +71,7 @@ EOF
 
 echo "Writing the credential file"
 sudo bash -c "sed -i -e '/PPTP/d' /etc/ppp/chap-secrets"
-sudo echo -e "$(echo $UserName | sed -e 's,\\,\\\\,') PPTP $Password *" | sudo tee -a /etc/ppp/chap-secrets > /dev/null
+sudo echo "$(echo $UserName | sed -e 's,\\,\\\\,') PPTP $Password *" | sudo tee -a /etc/ppp/chap-secrets > /dev/null
 
 echo "Writing the resolver configuration"
 sudo cat <<EOF | sudo tee /etc/ppp/resolv.conf > /dev/null
