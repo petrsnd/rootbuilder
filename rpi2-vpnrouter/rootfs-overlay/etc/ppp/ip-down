@@ -47,6 +47,6 @@ if [ -x /etc/ppp/ip-down.local ]; then
   exec /etc/ppp/ip-down.local "$@"
 fi
 
-run-parts /etc/ppp/ip-down.d \
-  --arg="$1" --arg="$2" --arg="$3" --arg="$4" --arg="$5" --arg="$6"
+run-parts --test /etc/ppp/ip-down.d
+run-parts -a $1 -a $2 -a $3 -a $4 -a $5 -a $6 /etc/ppp/ip-down.d
 

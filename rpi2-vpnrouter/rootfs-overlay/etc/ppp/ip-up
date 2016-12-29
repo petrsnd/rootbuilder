@@ -48,7 +48,7 @@ if [ -x /etc/ppp/ip-up.local ]; then
 fi
 
 run-parts --test /etc/ppp/ip-up.d
-run-parts -a $1 -a $2 -a $3 -a $4 -a $5 -a $6 -v /etc/ppp/ip-up.d
+run-parts -a $1 -a $2 -a $3 -a $4 -a $5 -a $6 /etc/ppp/ip-up.d
   
 
 # if pon was called with the "quick" argument, stop pppd
