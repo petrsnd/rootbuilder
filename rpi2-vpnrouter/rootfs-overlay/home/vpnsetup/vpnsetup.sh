@@ -37,12 +37,12 @@ DnsServers=
 echo "List of remote DNS servers; empty string to end list"
 while : ; do
     read -p "Remote DNS Server: " DnsServer
+    if [ -z "$DnsServer" ]; then
+        break
+    fi
     if ! [[ $DnsServer =~ ^((1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])$ ]]; then
         echo "Not an IP address, try again"
         continue
-    fi
-    if [ -z "$DnsServer" ]; then
-        break
     fi
     DnsServers="$DnsServers$DnsServer "
 done
