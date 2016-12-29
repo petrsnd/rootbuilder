@@ -68,6 +68,7 @@ file /etc/ppp/options.pptp
 ipparam rpivpn
 usepeerdns
 EOF
+sudo chmod 644 /etc/ppp/peers/rpivpn
 
 echo "Writing the credential file"
 sudo bash -c "sed -i -e '/PPTP/d' /etc/ppp/chap-secrets"
@@ -77,6 +78,7 @@ echo "Writing the resolver configuration"
 sudo cat <<EOF | sudo tee /etc/ppp/resolv.conf > /dev/null
 $(for s in $DnsServers; do echo -e "nameserver $s"; done)
 EOF
+sudo chmod 644 /etc/ppp/resolv.conf
 
 echo "Writing routing scripts"
 sudo cat <<EOF | sudo tee /etc/ppp/ip-up.d/000routing > /dev/null
@@ -96,6 +98,7 @@ iptables --insert FORWARD 1 --source $RemoteNetwork --destination 0.0.0.0/0.0.0.
 iptables --table nat --append POSTROUTING --out-interface ppp0 --jump MASQUERADE
 iptables --append FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
 EOF
+sudo chmod 755 /etc/ppp/ip-up.d/000routing
 sudo cat <<EOF | sudo tee /etc/ppp/ip-down.d/000routing > /dev/null
 #!/bin/sh
 
@@ -106,4 +109,5 @@ route del -net $RemoteNetwork
 iptables -F
 iptables -t nat -F
 EOF
+sudo chmod 755 /etc/ppp/ip-down.d/000routing
 

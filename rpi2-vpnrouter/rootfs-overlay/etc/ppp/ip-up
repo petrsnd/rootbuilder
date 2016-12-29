@@ -47,8 +47,9 @@ if [ -x /etc/ppp/ip-up.local ]; then
   exec /etc/ppp/ip-up.local "$@"
 fi
 
-run-parts /etc/ppp/ip-up.d \
-  --arg="$1" --arg="$2" --arg="$3" --arg="$4" --arg="$5" --arg="$6"
+run-parts --test /etc/ppp/ip-up.d
+run-parts -a $1 -a $2 -a $3 -a $4 -a $5 -a $6 -v /etc/ppp/ip-up.d
+  
 
 # if pon was called with the "quick" argument, stop pppd
 if [ -e /var/run/ppp-quick ]; then
