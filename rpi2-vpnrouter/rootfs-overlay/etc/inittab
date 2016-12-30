@@ -24,6 +24,9 @@
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 
+# fix up /var/ directory
+console::sysinit:/sbin/fix-up-var
+
 # ensure existence of ppp device
 console::sysinit:/sbin/create-ppp-device
 
