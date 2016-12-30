@@ -12,12 +12,12 @@ if [ ! -e /etc/resolv.conf ]; then
 fi
 
 # follow any symlink to find the real file
-REALRESOLVCONF=$(readlink --canonicalize /etc/resolv.conf)
+REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
 
 # merge the new nameservers with the other options from the old configuration
 {
   cat /etc/ppp/resolv.conf
-  grep --invert-match '^nameserver[[:space:]]' "$REALRESOLVCONF" || true
+  grep -v '^nameserver[[:space:]]' "$REALRESOLVCONF" || true
 } > "$REALRESOLVCONF.tmp"
 
 # backup the old configuration and install the new one

@@ -5,7 +5,7 @@
 
 # follow any symlink to find the real file
 if [ -e /etc/resolv.conf ]; then
-  REALRESOLVCONF=$(readlink --canonicalize /etc/resolv.conf)
+  REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
 else
   REALRESOLVCONF=/etc/resolv.conf
 fi
