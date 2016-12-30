@@ -48,5 +48,6 @@ if [ -x /etc/ppp/ip-down.local ]; then
 fi
 
 run-parts --test /etc/ppp/ip-down.d
-run-parts -a $1 -a $2 -a $3 -a $4 -a $5 -a $6 /etc/ppp/ip-down.d
+echo "run-parts -a \"$1\" -a \"$2\" -a \"$3\" -a \"$4\" -a \"$5\" -a \"$6\" /etc/ppp/ip-down.d"
+run-parts -a "$1" -a "$2" -a "$3" -a "$4" -a "$5" -a "$6" /etc/ppp/ip-down.d
 
