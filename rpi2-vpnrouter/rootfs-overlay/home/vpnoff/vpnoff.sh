@@ -10,7 +10,6 @@ fi
 sudo screen -list | grep -q "rpivpn"
 if [ $? -eq 0 ]; then 
     echo -e "Disabling VPN\n"
-    sudo screen -S "rpivpn" -d -m
     sudo screen -r "rpivpn" -X stuff $'sudo poff\n'
     sudo screen -r "rpivpn" -p 0 -X quit
 else
