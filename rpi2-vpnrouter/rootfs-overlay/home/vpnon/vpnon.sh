@@ -15,6 +15,9 @@ echo -e "Enabling VPN gateway\n"
 sudo screen -S "rpivpn" -d -m
 sudo screen -r "rpivpn" -X stuff $'sudo pon rpivpn debug dump logfd 2\n'
 
+echo -e "Sleeping for 5 seconds...\n"
+sleep 5
+
 echo -e "\nVerifying configuration\n"
 echo "Looking for ppp interface:"
 sudo ifconfig ppp0

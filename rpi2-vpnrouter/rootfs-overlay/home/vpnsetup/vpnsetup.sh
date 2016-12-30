@@ -48,7 +48,7 @@ while : ; do
 done
 
 RemoteNetwork=
-echo "The remote network is needed to set up routing, please use CIDR notation (e.g. 10.0.0.0/8)"
+echo "The remote network definition is needed to set up routing, please use CIDR notation (e.g. 10.0.0.0/8)"
 while [ -z "$RemoteNetwork" ]; do
     read -p "Remote network: " RemoteNetwork
     if ! [[ $RemoteNetwork =~ ^((1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])/[0-9]{1,2}$ ]]; then

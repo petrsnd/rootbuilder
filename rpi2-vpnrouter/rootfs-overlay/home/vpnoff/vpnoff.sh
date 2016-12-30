@@ -7,7 +7,8 @@ if [ ! -f "/etc/ppp/peers/rpivpn" ]; then
     exit 1
 fi
 
-if ! sudo screen -list | grep -q "rpivpn"; then
+sudo screen -list | grep -q "rpivpn"
+if [ $? -eq 0 ]; then 
     echo -e "Disabling VPN\n"
     sudo screen -S "rpivpn" -d -m
     sudo screen -r "rpivpn" -X stuff $'sudo poff\n'
@@ -15,6 +16,9 @@ if ! sudo screen -list | grep -q "rpivpn"; then
 else
     echo -e "VPN does not appear to be running\n"
 fi
+
+echo -e "Sleeping for 5 seconds...\n"
+sleep 5
 
 echo -e "\nVerifying configuration\n"
 echo "Looking for ppp interface:"
