@@ -24,6 +24,9 @@
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 
+# turn on ip forwarding
+console::sysinit:/sbin/ip-forward-on
+
 # fix up /var/ directory
 console::sysinit:/sbin/fix-up-var
 

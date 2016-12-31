@@ -23,4 +23,9 @@ echo -e "\nVerifying configuration\n"
 echo "Looking for ppp interface:"
 sudo ifconfig ppp0
 echo -e "\niptables configuration:"
-sudo iptables -L
+sudo iptables -L -n -v
+sudo iptables -t nat -L -n -v
+echo -e "\nresolver configuration:"
+sudo cat /etc/resolv.conf
+echo -e "\nip forwarding:"
+sudo sysctl net.ipv4.ip_forward
