@@ -33,20 +33,6 @@ Password=
 read -s -p "Password: " Password
 >&2 echo
 
-DnsServers=
-echo "List of remote DNS servers; empty string to end list"
-while : ; do
-    read -p "Remote DNS Server: " DnsServer
-    if [ -z "$DnsServer" ]; then
-        break
-    fi
-    if ! [[ $DnsServer =~ ^((1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])$ ]]; then
-        echo "Not an IP address, try again"
-        continue
-    fi
-    DnsServers="$DnsServers$DnsServer "
-done
-
 RemoteNetwork=
 echo "The remote network definition is needed to set up routing, please use CIDR notation (e.g. 10.0.0.0/8)"
 while [ -z "$RemoteNetwork" ]; do
@@ -73,12 +59,6 @@ sudo chmod 644 /etc/ppp/peers/rpivpn
 echo "Writing the credential file"
 sudo bash -c "sed -i -e '/PPTP/d' /etc/ppp/chap-secrets"
 sudo echo "$(echo $UserName | sed -e 's,\\,\\\\,') PPTP $Password *" | sudo tee -a /etc/ppp/chap-secrets > /dev/null
-
-echo "Writing the resolver configuration"
-sudo cat <<EOF | sudo tee /etc/ppp/resolv.conf > /dev/null
-$(for s in $DnsServers; do echo -e "nameserver $s"; done)
-EOF
-sudo chmod 644 /etc/ppp/resolv.conf
 
 echo "Writing routing scripts"
 sudo cat <<EOF | sudo tee /etc/ppp/ip-up.d/000routing > /dev/null
