@@ -60,6 +60,15 @@ echo "Writing the credential file"
 sudo bash -c "sed -i -e '/PPTP/d' /etc/ppp/chap-secrets"
 sudo echo "$(echo $UserName | sed -e 's,\\,\\\\,') PPTP $Password *" | sudo tee -a /etc/ppp/chap-secrets > /dev/null
 
+echo "Creating resolv.conf backup"
+# create the file if it does not exist
+if [ ! -e /etc/resolv.conf ]; then
+  : > /etc/resolv.conf
+fi
+# follow any symlink to find the real file
+REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
+sudo bash -c "cp -f $REALRESOLVCONF $REALRESOLVCONF.bak"
+
 echo "Writing routing scripts"
 sudo cat <<EOF | sudo tee /etc/ppp/ip-up.d/000routing > /dev/null
 #!/bin/sh

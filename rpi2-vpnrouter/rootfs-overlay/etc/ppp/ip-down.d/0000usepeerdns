@@ -1,8 +1,5 @@
 #!/bin/sh -e
 
-# exit if the resolvconf package is installed
-[ -x /sbin/resolvconf ] && exit 0
-
 # follow any symlink to find the real file
 if [ -e /etc/resolv.conf ]; then
   REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
@@ -11,8 +8,8 @@ else
 fi
 
 # if an old resolv.conf file exists, restore it
-if [ -e $REALRESOLVCONF.pppd-backup.$PPP_IFACE ]; then
-  mv -f $REALRESOLVCONF.pppd-backup.$PPP_IFACE $REALRESOLVCONF
+if [ -e $REALRESOLVCONF.bak ]; then
+  cp -f $REALRESOLVCONF.bak $REALRESOLVCONF
 
   # restart nscd because resolv.conf has changed
   if [ -e /var/run/nscd.pid ]; then
