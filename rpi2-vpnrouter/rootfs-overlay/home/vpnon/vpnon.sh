@@ -8,7 +8,8 @@ if [ ! -f "/etc/ppp/peers/rpivpn" ]; then
 fi
 
 if ! sudo screen -list | grep -q "rpivpn"; then
-    sudo screen -r "rpivpn" -p 0 -X quit
+    echo -e "Found an existing screen session, kill it using vpnoff user"
+    exit 1
 fi
 
 echo -e "Enabling VPN gateway\n"
@@ -19,12 +20,13 @@ echo -e "Sleeping for 5 seconds...\n"
 sleep 5
 
 echo -e "\nVerifying configuration\n"
-echo "Looking for ppp interface:"
+echo "ip forwarding:"
+sudo sysctl net.ipv4.ip_forward
+echo -e "\nLooking for ppp interface:"
 sudo ifconfig ppp0
 echo -e "\niptables configuration:"
 sudo iptables -L -n -v
+echo -e "\niptables nat configuration:"
 sudo iptables -t nat -L -n -v
 echo -e "\nresolver configuration:"
 sudo cat /etc/resolv.conf
-echo -e "\nip forwarding:"
-sudo sysctl net.ipv4.ip_forward
