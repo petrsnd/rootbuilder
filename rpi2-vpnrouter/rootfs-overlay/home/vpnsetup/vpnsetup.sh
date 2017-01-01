@@ -70,6 +70,8 @@ REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
 sudo bash -c "cp -f $REALRESOLVCONF $REALRESOLVCONF.bak"
 
 echo "Writing routing scripts"
+sudo mkdir -p /etc/ppp/ip-up.d
+sudo chmod 755 /etc/ppp/ip-up.d
 sudo cat <<EOF | sudo tee /etc/ppp/ip-up.d/000routing > /dev/null
 #!/bin/sh
 
