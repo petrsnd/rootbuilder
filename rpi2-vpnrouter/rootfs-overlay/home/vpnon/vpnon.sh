@@ -7,7 +7,8 @@ if [ ! -f "/etc/ppp/peers/rpivpn" ]; then
     exit 1
 fi
 
-if ! sudo screen -list | grep -q "rpivpn"; then
+sudo screen -list | grep -q "rpivpn"
+if [ $? -eq 0 ]; then
     echo -e "Found an existing screen session, kill it using vpnoff user"
     exit 1
 fi
