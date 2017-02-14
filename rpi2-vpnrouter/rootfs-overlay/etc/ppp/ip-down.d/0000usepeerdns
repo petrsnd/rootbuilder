@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+# follow any symlink to find the real file
+if [ -e /etc/resolv.conf ]; then
+    REALRESOLVCONF=$(readlink -f /etc/resolv.conf)
+else
+    REALRESOLVCONF=/etc/resolv.conf
+fi
+
+# if an old resolv.conf file exists, restore it
+if [ -e $REALRESOLVCONF.bak ]; then
+    cp -f $REALRESOLVCONF.bak $REALRESOLVCONF
+    chmod 644 $REALRESOLVCONF
+
+    # restart nscd because resolv.conf has changed
+    if [ -e /var/run/nscd.pid ]; then
+      /etc/init.d/nscd restart || true
+    fi
+fi
+
+exit 0
+

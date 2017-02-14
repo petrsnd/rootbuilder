@@ -5,6 +5,7 @@ print_usage()
     cat <<EOF
 USAGE: build.sh [options]
   -i   Modify configuration and exit
+  -k   Modify kernel configuration and exit
   -d   Download Buildroot if necessary and exit
   -c   Clean before building
   -q   Quiet mode (don't prompt)
@@ -35,6 +36,10 @@ bootstrap()
     download
     echo "Installing the latest $CONFIG_FILE to $BUILDROOT_DIR"
     cp $SCRIPT_DIR/$CONFIG_FILE $BUILDROOT_DIR/.config
+    if [ ! -z "$KERNEL_CONFIG_FILE" ]; then
+        echo "Installing the latest $KERNEL_CONFIG_FILE to $BUILDROOT_DIR"
+        cp $SCRIPT_DIR/$KERNEL_CONFIG_FILE $BUILDROOT_DIR/.kernel.config
+    fi
     BOOTSTRAPPED=true
 }
 
@@ -45,6 +50,11 @@ while getopts ":ikdcqh" opt; do
     i)
         bootstrap
         make -C $BUILDROOT_DIR nconfig
+        exit $?
+        ;;
+    k)
+        bootstrap
+        make -C $BUILDROOT_DIR linux-nconfig
         exit $?
         ;;
     d)
