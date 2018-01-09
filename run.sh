@@ -12,7 +12,7 @@ if [ ! -z "$(which docker)" ]; then
         echo -e "${YELLOW}Building the rootbuilder container image.${NC}"
         $ScriptDir/build.sh
     fi
-    if [ ! -z "$(docker ps -f name=lucid_bell -aq)" ]; then
+    if [ ! -z "$(docker ps -f name=rootbuilder_runtime -aq)" ]; then
         echo -e "${YELLOW}Restarting stopped rootbuilder_runtime container.${NC}"
         docker start -ai rootbuilder_runtime
     else
