@@ -57,7 +57,7 @@ route.
 4. Disconnect the VPN
 
    ```bash
-   ssh vpnoff@your_rpi2>
+   ssh vpnoff@your_rpi2
    ```
 
 This should pull down the tunnel.  You need to make sure you remove your local
