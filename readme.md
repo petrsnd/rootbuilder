@@ -37,13 +37,17 @@ authorized_keys file.
 
 1. Setup the VPN configuration
 
-`ssh vpnsetup@<your rpi2>`
+   ```bash
+   ssh vpnsetup@your_rpi2
+   ```
 
 Follow the prompts to configure your VPN and gateway to the remote network.
 
 2. Connect the VPN
 
-`ssh vpnon@<your rpi2>`
+   ```bash
+   ssh vpnon@your_rpi2
+   ```
 
 This will connect the tunnel.  You need to make sure you setup the local static
 route.
@@ -52,7 +56,9 @@ route.
 
 4. Disconnect the VPN
 
-`ssh vpnoff@<your rpi2>`
+   ```bash
+   ssh vpnoff@your_rpi2>
+   ```
 
 This should pull down the tunnel.  You need to make sure you remove your local
 static route.
