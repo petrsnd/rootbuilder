@@ -4,7 +4,7 @@
 
 WORK_DNS_SERVER=10.5.33.37
 GATEWAY=$(dig +short rpi2)
-if [ $? -eq 0 ]; then
+if [ ! -z "$GATEWAY" ]; then
     echo $GATEWAY > /tmp/gateway
 else
     GATEWAY=$(cat /tmp/gateway)
