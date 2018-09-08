@@ -2,27 +2,50 @@
 ## This script is meant to work with the rpiX-vpnrouter to setup
 ## a Mac to use it
 
-WORK_DNS_SERVER=10.5.33.37
-GATEWAY=$(dig +short rpi2)
-if [ ! -z "$GATEWAY" ]; then
-    echo $GATEWAY > /tmp/gateway
-else
-    GATEWAY=$(cat /tmp/gateway)
-fi
-REMOTENETWORK="10.0.0.0/8"
-
 print_usage()
 {
     cat <<EOF
-USAGE: work-gateway.sh {on|off} [gateway-ip]
+USAGE: work-gateway.sh {on|off} [gateway-ip] [-h]
   on     Turn on the work gateway through specified IP address
   off    Turn off the work gateway and restore normal networking
   setup  Setup the work gateway by configuring it to use the VPN
+  clean  Fix situation where work gateway wasn't shutdown properly
 EOF
     exit 0
 }
 
+cleanup()
+{
+    echo "Deleting route for $REMOTENETWORK"
+    sudo route -n delete $REMOTENETWORK
+    echo "Restoring DNS servers to DHCP configuration"
+    sudo networksetup -setdnsservers Wi-Fi Empty
+    sudo networksetup -setdnsservers "AX88179 USB 3.0 to Gigabit Ethernet" Empty
+}
+
+# check arguments
 if [ -z "$1" ]; then print_usage; fi
+if [ "$1" = "-h"  ]; then print_usage; fi
+if [ "$1" != "clean" ]; then
+    WORK_DNS_SERVER=10.5.33.37
+    GATEWAY=$(dig +short rpi2)
+    if [[ $GATEWAY = ";;"* ]]; then
+        GATEWAY=
+    fi
+    if [ ! -z "$GATEWAY" ]; then
+        echo $GATEWAY > /tmp/gateway
+    else
+        GATEWAY=$(cat /tmp/gateway)
+    fi
+    REMOTENETWORK="10.0.0.0/8"
+fi
+
+if [ "$1" = "clean" ]; then
+    cleanup
+    exit 0
+fi
+
+# everything else requires GATEWAY to be set
 if [ -z "$2" ]; then
     if [ -z "$GATEWAY" ]; then
         echo "Unable to determine gateway-ip"
@@ -52,11 +75,7 @@ elif [ "$1" = "off" ]; then
     if [ $? -ne 0 ]; then
         echo "Unable to remove gateway on $GATEWAY"
     fi
-    echo "Deleting route for $REMOTENETWORK"
-    sudo route -n delete $REMOTENETWORK
-    echo "Restoring DNS servers to DHCP configuration"
-    sudo networksetup -setdnsservers Wi-Fi Empty
-    sudo networksetup -setdnsservers "AX88179 USB 3.0 to Gigabit Ethernet" Empty
+    cleanup
 elif [ "$1" = "setup" ]; then
     ssh vpnsetup@$GATEWAY
     if [ $? -ne 0 ]; then

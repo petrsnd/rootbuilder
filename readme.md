@@ -63,9 +63,3 @@ route.
 This should pull down the tunnel.  You need to make sure you remove your local
 static route.
 
-## rpi3-vpnrouter
-
-This is a version of the above project but built for raspberry pi 3.
-
-Right now I don't have this build working.  I had a raspberry pi 2 lying around
-so I did that version first.
