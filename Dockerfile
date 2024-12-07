@@ -2,6 +2,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update && \
     apt-get install -y \
+        locales \
         curl \
         wget \
         vim \
@@ -10,13 +11,13 @@ RUN apt-get update && \
         cpio \
         zip \
         unzip \
-        python \
+        python3 \
         git \
         cvs \
         build-essential \
         libncurses5-dev && \
     rm -rf /var/lib/apt/lists/* && \
-    locale-gen en_US.utf8 && \
+    /usr/sbin/locale-gen en_US.utf8 && \
     curl -o /root/.tmux.conf https://gist.githubusercontent.com/petrsnd/6550ee1dd04db54c4b84a44a965ba8ed/raw/eb63e4dbbefd8abf634fc978dab4e982191ef27d/.tmux.conf && \
     curl -o /root/.bashrc https://gist.githubusercontent.com/petrsnd/990e61eb3aa7b9dc272c91ac358d4797/raw/7cdae3d87e51d30be90e8fb99ad521596c32320f/.bashrc && \
     git clone https://github.com/magicmonty/bash-git-prompt.git /root/.bash-git-prompt --depth=1
