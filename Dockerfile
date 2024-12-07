@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:24.04
 
 RUN apt-get update && \
     apt-get install -y \
@@ -23,7 +23,6 @@ RUN apt-get update && \
 
 COPY buildroot-common/ /root/buildroot-common
 COPY rpi2-vpnrouter/ /root/rpi2-vpnrouter 
-COPY rpi3-vpnrouter/ /root/rpi3-vpnrouter
 COPY usb-linux/ /root/usb-linux
 
 ENTRYPOINT ["/bin/bash"]
